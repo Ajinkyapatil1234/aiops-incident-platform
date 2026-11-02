@@ -13,7 +13,9 @@ RETRY_DELAY = 3
 def analyze_incident(incident):
     """
     Try Gemini first, then automatically fall back to Groq.
-    Both providers must return the same validated analysis structure.
+
+    Rate-limit and quota errors trigger immediate fallback.
+    Other errors receive one retry before fallback.
     """
 
     for attempt in range(MAX_PRIMARY_RETRIES + 1):
@@ -23,12 +25,26 @@ def analyze_incident(incident):
             return result
 
         except Exception as exc:
+            error_message = str(exc)
+            is_rate_limited = (
+                "429" in error_message
+                or "RESOURCE_EXHAUSTED" in error_message.upper()
+                or "RATE_LIMIT" in error_message.upper()
+            )
+
             logger.warning(
                 "Gemini analysis failed (attempt %s/%s): %s",
                 attempt + 1,
                 MAX_PRIMARY_RETRIES + 1,
                 exc,
             )
+
+            if is_rate_limited:
+                logger.warning(
+                    "Gemini quota/rate limit detected. "
+                    "Switching to Groq immediately."
+                )
+                break
 
             if attempt < MAX_PRIMARY_RETRIES:
                 time.sleep(RETRY_DELAY)
