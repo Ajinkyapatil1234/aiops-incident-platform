@@ -1,0 +1,17 @@
+.venv/
+__pycache__/
+*.py[cod]
+.git/
+.env
+.env.*
+!.env.example
+.pytest_cache/
+
+# Runtime incident data
+incidents.jsonl
+incident_queue.jsonl
+incident_analyses.jsonl
+incident_analysis_failed.jsonl
+
+# Test files
+tests/

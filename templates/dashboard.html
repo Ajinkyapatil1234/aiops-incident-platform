@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIOps | Incident Command Center</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+</head>
+<body>
+    <div class="app-shell">
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="brand-icon">A</div>
+                <div>
+                    <h2>AIOps</h2>
+                    <span>Incident Command</span>
+                </div>
+            </div>
+
+            <div class="nav-label">WORKSPACE</div>
+            <nav>
+                <a class="nav-link active" href="#overview">◫ <span>Overview</span></a>
+                <a class="nav-link" href="#incidents">⚠ <span>Incidents</span></a>
+                <a class="nav-link" href="#ai-analysis">✧ <span>AI Analysis</span></a>
+                <a class="nav-link" href="#metrics">⌁ <span>Metrics</span></a>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <div class="system-indicator">
+                    <span class="status-dot"></span>
+                    <div>
+                        <strong>Monitoring active</strong>
+                        <small>Live system overview</small>
+                    </div>
+                </div>
+                <div class="version">AIOps Platform · v1.0</div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="topbar">
+                <div>
+                    <div class="eyebrow">OPERATIONS / MONITORING</div>
+                    <h1>Incident Command Center</h1>
+                    <p class="subtitle">Monitor application health, incidents and AI-powered insights.</p>
+                </div>
+                <div class="topbar-actions">
+                    <span class="live-label"><span class="status-dot"></span> LIVE</span>
+                    <button id="refresh-button" class="button button-secondary">↻ Refresh</button>
+                </div>
+            </header>
+
+            <section id="overview">
+                <div class="section-heading">
+                    <div>
+                        <h2>System overview</h2>
+                        <p>Current application and incident status</p>
+                    </div>
+                    <span id="last-updated" class="muted">Waiting for data...</span>
+                </div>
+
+                <div class="overview-grid">
+                    <article class="card status-card">
+                        <div class="card-top"><span>APPLICATION HEALTH</span><span class="card-icon">⌁</span></div>
+                        <div id="app-health" class="metric-value">Checking...</div>
+                        <div id="app-uptime" class="metric-note">Checking health endpoint</div>
+                    </article>
+
+                    <article class="card">
+                        <div class="card-top"><span>TOTAL INCIDENTS</span><span class="card-icon">⚠</span></div>
+                        <div id="total-incidents" class="metric-value">—</div>
+                        <div class="metric-note">Recorded incident history</div>
+                    </article>
+
+                    <article class="card">
+                        <div class="card-top"><span>PENDING ANALYSIS</span><span class="card-icon">◷</span></div>
+                        <div id="pending-jobs" class="metric-value">—</div>
+                        <div class="metric-note">Waiting for AI processing</div>
+                    </article>
+
+                    <article class="card">
+                        <div class="card-top"><span>FAILED ANALYSIS</span><span class="card-icon">!</span></div>
+                        <div id="failed-jobs" class="metric-value">—</div>
+                        <div class="metric-note">Jobs requiring attention</div>
+                    </article>
+                </div>
+            </section>
+
+            <section id="incidents" class="content-section">
+                <div class="section-heading">
+                    <div>
+                        <h2>Incident history</h2>
+                        <p>Detected events and their processing status</p>
+                    </div>
+                    <button id="simulate-button" class="button button-danger">＋ Simulate incident</button>
+                </div>
+
+                <div class="card table-card">
+                    <div class="table-toolbar">
+                        <span>RECENT INCIDENTS</span>
+                        <span id="incident-count" class="muted">0 records</span>
+                    </div>
+                    <div class="table-scroll">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>INCIDENT</th>
+                                    <th>SERVICE</th>
+                                    <th>TYPE</th>
+                                    <th>TIME</th>
+                                    <th>STATUS</th>
+                                </tr>
+                            </thead>
+                            <tbody id="incident-table">
+                                <tr><td colspan="5" class="empty-state">Loading incidents...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <section id="ai-analysis" class="content-section">
+                <div class="section-heading">
+                    <div>
+                        <h2>AI incident analysis</h2>
+                        <p>Root-cause hypotheses and recommended actions</p>
+                    </div>
+                </div>
+
+                <div id="analysis-panel" class="card analysis-card">
+                    <div class="empty-state">Select an incident to inspect its AI analysis.</div>
+                </div>
+            </section>
+
+            <section id="metrics" class="content-section">
+                <div class="section-heading">
+                    <div>
+                        <h2>Application metrics</h2>
+                        <p>Prometheus instrumentation</p>
+                    </div>
+                </div>
+                <div class="metrics-grid">
+                    <article class="card">
+                        <div class="card-top"><span>HTTP ERROR COUNTER</span><span class="card-icon">↗</span></div>
+                        <div id="error-counter" class="metric-value">—</div>
+                        <div class="metric-note">aiops_http_errors_total</div>
+                    </article>
+                    <article class="card">
+                        <div class="card-top"><span>HTTP REQUESTS</span><span class="card-icon">⇄</span></div>
+                        <div id="request-counter" class="metric-value">—</div>
+                        <div class="metric-note">aiops_http_requests_total</div>
+                    </article>
+                    <article class="card">
+                        <div class="card-top"><span>AI SERVICE</span><span class="card-icon">✧</span></div>
+                        <div id="ai-status" class="metric-value">—</div>
+                        <div class="metric-note">Based on recorded analysis results</div>
+                    </article>
+                </div>
+            </section>
+
+            <footer>
+                AIOps Incident Response Platform <span>·</span> Recommendations only — no automatic remediation
+            </footer>
+        </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+</html>
