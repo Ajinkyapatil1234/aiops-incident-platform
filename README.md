@@ -97,6 +97,24 @@ A Flask-based web dashboard provides:
 
 The frontend uses HTML, CSS, and JavaScript.
 
+### Dashboard Screenshots
+
+#### Overview
+![Dashboard Overview](screenshots/Screenshot%20(2201).png)
+
+#### Incident Management
+![Incident Management](screenshots/Screenshot%20(2212).png)
+
+#### AI Incident Analysis
+![AI Incident Analysis](screenshots/Screenshot%20(2213).png)
+
+#### Metrics Dashboard
+![Metrics Dashboard](screenshots/Screenshot%20(2214).png)
+
+The application's Prometheus `/metrics` endpoint was also independently
+validated using live Kubernetes application metrics. A separate Prometheus
+server scraping and alerting setup was not part of this validation.
+
 ### 6. Observability
 - Prometheus metrics integration.
 - Application health endpoint.
